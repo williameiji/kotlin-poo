@@ -1,21 +1,46 @@
-// [Template no Kotlin Playground](https://pl.kotl.in/WcteahpyN)
+// [Kotlin Playground](https://pl.kotl.in/ETQyCE7nR?theme=darcula)
 
-enum class Nivel { BASICO, INTERMEDIARIO, DIFICIL }
+class Users(val name: String)
 
-class Usuario
+class Activities() {
+    val contents: MutableList<EducationalContent> = mutableListOf()
 
-data class ConteudoEducacional(var nome: String, val duracao: Int = 60)
+	fun newContent(topic: EducationalContent) {
+    	contents.add(topic)                      
+	}
+}
 
-data class Formacao(val nome: String, var conteudos: List<ConteudoEducacional>) {
+data class EducationalContent(val name: String, val duration: Int = 60)
 
-    val inscritos = mutableListOf<Usuario>()
+data class Courses(val name: String, var contents: List<EducationalContent>) {
+
+    val subscribed = mutableListOf<Users>()
     
-    fun matricular(usuario: Usuario) {
-        //TODO
+    val peopleSubscribed: List<Users> = subscribed
+    
+    fun enroll(user: Users) {
+		subscribed.add(user)
     }
+    
+    fun getSubscribers(): List<Users> {
+    	return peopleSubscribed
+	}
 }
 
 fun main() {
-    //TODO
-    //TODO
+    	val activity = Activities()
+		activity.newContent(EducationalContent("Coleções em Kotlin", duration = 120))
+        activity.newContent(EducationalContent("Orientação em Objetos", duration = 180))
+        
+		val course = Courses("Kotlin - DIO", activity.contents)
+        
+        val user = Users("William")
+        val user1 = Users("Eiji")
+        course.enroll(user)
+        course.enroll(user1)
+        
+        println("Usuários registrados no curso de ${course.name}")
+        course.getSubscribers().forEach {
+        	i -> println(i.name)
+    	}
 }
